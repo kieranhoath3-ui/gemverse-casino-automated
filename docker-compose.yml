@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  # PostgreSQL database service
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gemverse
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Next.js application service
+  app:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # The database connection string points at the db service
+      DATABASE_URL: postgres://postgres:postgres@db:5432/gemverse
+      JWT_SECRET: please-change-this-secret
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: please-change-this-secret
+      # You can set additional env vars here if needed
+    depends_on:
+      - db
+    volumes:
+      # Mount the current directory into the container so changes are reflected live
+      - .:/app
+      # Keep node_modules outside the mount so that host dependencies don't conflict
+      - /app/node_modules
+
+volumes:
+  db-data:
