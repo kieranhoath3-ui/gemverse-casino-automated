@@ -1,4 +1,4 @@
-.PHONY: help install dev build start lint typecheck test clean db-setup db-migrate db-studio db-seed docker-up docker-down docker-clean
+.PHONY: help install dev build start lint typecheck test clean db-setup db-migrate db-studio db-seed docker-up docker-down docker-clean deploy-prod deploy-check
 
 # Default target
 help:
@@ -15,9 +15,11 @@ help:
 	@echo "  make db-migrate    - Run database migrations"
 	@echo "  make db-studio     - Open Prisma Studio"
 	@echo "  make db-seed       - Seed database with initial data"
-	@echo "  make docker-up     - Start Docker containers"
+	@echo "  make docker-up     - Start Docker containers (development)"
 	@echo "  make docker-down   - Stop Docker containers"
 	@echo "  make docker-clean  - Stop and remove Docker containers and volumes"
+	@echo "  make deploy-check  - Run pre-deployment checks"
+	@echo "  make deploy-prod   - Deploy to production (Docker)"
 
 # Installation
 install:
@@ -72,6 +74,26 @@ docker-down:
 docker-clean:
 	docker compose down -v
 	docker system prune -f
+
+# Deployment
+deploy-check:
+	@echo "Running pre-deployment checks..."
+	@npm run lint
+	@npm run typecheck
+	@npm run build
+	@echo "✅ All checks passed! Ready for deployment."
+
+deploy-prod:
+	@echo "Deploying to production..."
+	@if [ ! -f .env.production ]; then \
+		echo "❌ Error: .env.production not found. Copy .env.production.example and configure it."; \
+		exit 1; \
+	fi
+	@docker compose -f docker-compose.prod.yml build
+	@docker compose -f docker-compose.prod.yml up -d
+	@echo "✅ Production deployment complete!"
+	@echo "Check status: docker compose -f docker-compose.prod.yml ps"
+	@echo "View logs: docker compose -f docker-compose.prod.yml logs -f"
 
 # Cleanup
 clean:

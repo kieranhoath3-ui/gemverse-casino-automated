@@ -195,14 +195,26 @@ docker compose up
 
 ### Production
 
-1. Update environment variables in `docker-compose.yml`
-2. Use production-ready secrets
-3. Enable SSL/TLS
-4. Configure reverse proxy (Nginx)
-
+**Quick Start:**
 ```bash
+# Copy production environment template
+cp .env.production.example .env.production
+
+# Edit and add your secrets
+nano .env.production
+
+# Deploy with production configuration
 docker compose -f docker-compose.prod.yml up -d
 ```
+
+**Features:**
+- Multi-stage optimized Docker builds
+- Health checks for all services
+- Nginx reverse proxy with rate limiting
+- Automatic database migrations
+- SSL/TLS ready configuration
+
+See [Deployment Checklist](./docs/deployment-checklist.md) for complete production setup guide.
 
 ## 🔧 Configuration
 
