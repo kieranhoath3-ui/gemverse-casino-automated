@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Troubleshooting guide in documentation
 
 ### Changed
-- Migrated project from nested Kimi export folder to clean root structure
+- Migrated project from nested Kimi Export folder to clean root structure
 - Restructured documentation: split monolithic README into focused docs
 - Updated `.gitignore` to exclude Next.js build artifacts and environment files
 - Enhanced CI workflow with security audits and type checking
