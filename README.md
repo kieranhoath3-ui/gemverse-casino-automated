@@ -1,1 +1,1 @@
-# gemverse-casino-automated
+# gemverse-casino
