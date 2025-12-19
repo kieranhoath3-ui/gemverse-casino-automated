@@ -134,17 +134,35 @@ All games use cryptographic algorithms to ensure fairness:
 
 ## 🛠️ Available Scripts
 
+### Using npm
+
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
+npm run dev                # Start development server
+npm run build              # Build for production
+npm run start              # Start production server
+npm run lint               # Run ESLint
+npm run typecheck          # TypeScript type checking
 
 # Database commands
-npm run db:push      # Push schema changes
-npm run db:studio    # Open Prisma Studio
-npm run db:seed      # Seed database
-npm run db:migrate   # Run migrations
+npm run db:push            # Push schema changes
+npm run db:studio          # Open Prisma Studio
+npm run db:seed            # Seed database
+npm run db:migrate         # Run migrations (dev)
+npm run db:migrate:deploy  # Run migrations (production)
+npm run db:generate        # Generate Prisma client
+```
+
+### Using Make (recommended)
+
+```bash
+make help           # Show all available commands
+make install        # Install dependencies
+make dev            # Start development server
+make build          # Build for production
+make test           # Run all checks (lint + typecheck + build)
+make db-setup       # Setup database
+make docker-up      # Start Docker containers
+make clean          # Clean build artifacts
 ```
 
 ## 🔐 Security
@@ -164,6 +182,8 @@ See [Security Guide](./docs/security.md) for details.
 - [**Local Development**](./docs/local-dev.md) - Complete development setup guide
 - [**Deployment Guide**](./docs/deployment.md) - Production deployment instructions
 - [**Security Guidelines**](./docs/security.md) - Security best practices
+- [**Troubleshooting**](./docs/troubleshooting.md) - Common issues and solutions
+- [**Changelog**](./CHANGELOG.md) - Version history and changes
 
 ## 🐳 Docker Deployment
 

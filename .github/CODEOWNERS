@@ -1,0 +1,28 @@
+# CODEOWNERS file for Gemverse Casino
+# These owners will be requested for review when someone opens a pull request.
+
+# Default owner for everything in the repo
+* @kieranhoath3-ui
+
+# Database schema and migrations - require careful review
+/prisma/ @kieranhoath3-ui
+
+# API routes - critical for security
+/src/app/api/ @kieranhoath3-ui
+
+# Docker and deployment configuration
+/Dockerfile @kieranhoath3-ui
+/docker-compose.yml @kieranhoath3-ui
+/start.sh @kieranhoath3-ui
+
+# CI/CD workflows
+/.github/workflows/ @kieranhoath3-ui
+
+# Security-sensitive files
+/.env.example @kieranhoath3-ui
+/src/lib/permission.ts @kieranhoath3-ui
+/src/lib/owner.ts @kieranhoath3-ui
+
+# Documentation changes
+/docs/ @kieranhoath3-ui
+/README.md @kieranhoath3-ui

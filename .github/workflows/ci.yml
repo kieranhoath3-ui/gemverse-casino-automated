@@ -30,6 +30,13 @@ jobs:
     - name: Run linter
       run: npm run lint
 
+    - name: Type check
+      run: npm run typecheck
+
+    - name: Security audit
+      run: npm audit --audit-level=high
+      continue-on-error: true
+
     - name: Generate Prisma Client
       run: npx prisma generate
       env:
