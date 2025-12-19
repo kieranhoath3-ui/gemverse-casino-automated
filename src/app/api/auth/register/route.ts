@@ -175,7 +175,10 @@ async function checkSystemInitialization(): Promise<boolean> {
     where: { key: 'system_initialized' }
   })
 
-  return setting?.value?.value === true
+  if (!setting || !setting.value) return false
+  
+  const value = setting.value as { value?: boolean }
+  return value.value === true
 }
 
 function calculateStartingStats(isFirstUser: boolean, referralCode?: string) {
@@ -275,8 +278,7 @@ async function createSecureSession(userId: number) {
     data: {
       session_token: sessionToken,
       user_id: userId,
-      expires,
-      created_at: new Date()
+      expires
     }
   })
 

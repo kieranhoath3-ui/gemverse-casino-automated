@@ -86,13 +86,15 @@ export async function GET(request: NextRequest) {
       prisma.$queryRaw`SELECT 
         COUNT(*) as total_connections,
         MAX(created_at) as last_activity
-        FROM sessions WHERE expires > NOW()`
+        FROM sessions WHERE expires > NOW()` as Promise<any[]>
     ])
 
     // Calculate additional metrics
-    const avgGemsPerUser = userCount > 0 ? totalGems._sum.gems / BigInt(userCount) : BigInt(0)
+    const avgGemsPerUser = userCount > 0 && totalGems._sum.gems ? totalGems._sum.gems / BigInt(userCount) : BigInt(0)
     const registrationGrowth = await calculateRegistrationGrowth()
     const gameStats = await getGameStatistics()
+
+    const healthData = systemHealth && systemHealth.length > 0 ? systemHealth[0] : { total_connections: 0, last_activity: null }
 
     const stats = {
       total_users: userCount,
@@ -117,8 +119,8 @@ export async function GET(request: NextRequest) {
       registration_growth: registrationGrowth,
       game_statistics: gameStats,
       system_health: {
-        active_sessions: systemHealth[0]?.total_connections || 0,
-        last_session: systemHealth[0]?.last_activity,
+        active_sessions: healthData.total_connections || 0,
+        last_session: healthData.last_activity,
         uptime: process.uptime(),
         memory_usage: process.memoryUsage(),
         database_connections: await getDatabaseConnectionCount()
@@ -185,7 +187,7 @@ async function getDatabaseConnectionCount() {
       SELECT count(*) as connections 
       FROM pg_stat_activity 
       WHERE datname = current_database()
-    `
+    ` as any[]
     return result[0]?.connections || 0
   } catch {
     return 0

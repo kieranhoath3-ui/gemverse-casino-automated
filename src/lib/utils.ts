@@ -27,7 +27,7 @@ export function generateClientNonce(): string {
   return Math.random().toString(36).substring(2, 15)
 }
 
-export function verifyFairness(serverSeed: string, clientNonce: string, result: number, maxValue: number): boolean {
+export function verifyFairness(serverSeed: string, clientNonce: string, result: number, maxValue: number): Promise<boolean> {
   // Simple HMAC-based fairness verification
   const crypto = window.crypto || (window as any).msCrypto
   const encoder = new TextEncoder()

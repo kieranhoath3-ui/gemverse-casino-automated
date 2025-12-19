@@ -137,7 +137,7 @@ export class OwnerManager {
       { key: 'system_initialized', value: { value: true, timestamp: new Date().toISOString() } },
       { key: 'owner_transfer_enabled', value: { enabled: true, cooldown_hours: 24 } },
       { key: 'system_version', value: { version: '1.0.0', build: Date.now() } },
-      { key: 'last_gem_rain', value: null },
+      { key: 'last_gem_rain', value: null as any },
       { key: 'maintenance_mode', value: { enabled: false, message: '' } }
     ]
 

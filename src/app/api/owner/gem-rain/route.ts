@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       include: { user: true }
     })
 
-    const onlineUserIds = [...new Set(activeSessions.map(s => s.user_id))]
+    const onlineUserIds = Array.from(new Set(activeSessions.map(s => s.user_id)))
 
     // Give 10 gems to each online user
     await prisma.user.updateMany({

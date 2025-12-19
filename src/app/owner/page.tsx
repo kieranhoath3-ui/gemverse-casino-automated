@@ -358,7 +358,7 @@ export default function OwnerDashboard() {
               </div>
               <div className="bg-background/50 rounded-lg p-3">
                 <p className="text-xs text-gray-400">Total Gems</p>
-                <p className="text-2xl font-bold text-gem-400">{formatGems(systemStats.total_gems)}</p>
+                <p className="text-2xl font-bold text-gem-400">{formatGems(BigInt(systemStats.total_gems))}</p>
               </div>
               <div className="bg-background/50 rounded-lg p-3">
                 <p className="text-xs text-gray-400">Total Bets</p>
@@ -402,7 +402,7 @@ export default function OwnerDashboard() {
               />
               <StatCard
                 title="Total Gems"
-                value={systemStats ? formatGems(systemStats.total_gems) : '0'}
+                value={systemStats ? formatGems(BigInt(systemStats.total_gems)) : '0'}
                 icon={<Gem className="w-5 h-5" />}
                 color="text-gem-400"
               />
@@ -530,7 +530,7 @@ export default function OwnerDashboard() {
                               <option value="OWNER">Owner</option>
                             </select>
                           </td>
-                          <td className="p-3 font-mono text-gem-400">{formatGems(user.gems)}</td>
+                          <td className="p-3 font-mono text-gem-400">{formatGems(BigInt(user.gems))}</td>
                           <td className="p-3">{user.level}</td>
                           <td className="p-3">
                             <span className={`px-2 py-1 rounded text-xs ${

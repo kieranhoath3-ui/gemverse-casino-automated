@@ -50,7 +50,7 @@ export default function MinesPage() {
     const flagged = Array(gridSize).fill(null).map(() => Array(gridSize).fill(false))
     
     // Place mines randomly
-    const mines = [...Array(gridSize * gridSize).keys()]
+    const mines = Array.from(Array(gridSize * gridSize).keys())
     const minePositions = mines.sort(() => Math.random() - 0.5).slice(0, mineCount)
     
     minePositions.forEach(pos => {

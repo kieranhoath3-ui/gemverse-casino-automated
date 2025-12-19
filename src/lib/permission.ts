@@ -81,7 +81,7 @@ export const ROLE_PERMISSIONS = {
 export class PermissionManager {
   static hasPermission(role: string, permission: Permission): boolean {
     const permissions = ROLE_PERMISSIONS[role as keyof typeof ROLE_PERMISSIONS]
-    return permissions ? permissions.includes(permission) : false
+    return permissions ? (permissions as readonly Permission[]).includes(permission) : false
   }
 
   static hasAnyPermission(role: string, permissions: Permission[]): boolean {
@@ -92,7 +92,7 @@ export class PermissionManager {
     return permissions.every(permission => this.hasPermission(role, permission))
   }
 
-  static getRolePermissions(role: string): Permission[] {
+  static getRolePermissions(role: string): readonly Permission[] {
     return ROLE_PERMISSIONS[role as keyof typeof ROLE_PERMISSIONS] || []
   }
 

@@ -114,7 +114,7 @@ export default function LoginPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-400">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/register" className="text-gem-400 hover:text-gem-300 font-medium">
                   Sign up here
                 </Link>
@@ -123,7 +123,7 @@ export default function LoginPage() {
 
             <div className="mt-4 text-center">
               <p className="text-xs text-gray-500">
-                Demo: Try username "owner" with password "owner123"
+                Demo: Try username &quot;owner&quot; with password &quot;owner123&quot;
               </p>
             </div>
           </CardContent>
