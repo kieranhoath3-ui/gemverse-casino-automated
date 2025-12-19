@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id      Int      @id @default(autoincrement())
+  username     String   @unique
+  password_hash String
+  email        String?
+  role         Role     @default(PLAYER)
+  gems         BigInt   @default(1000)
+  crystals     BigInt   @default(0)
+  level        Int      @default(1)
+  xp           BigInt   @default(0)
+  created_at   DateTime @default(now())
+  last_active  DateTime @default(now())
+  is_banned    Boolean  @default(false)
+  mute_until   DateTime?
+
+  // Relations
+  bets         Bet[]
+  admin_logs   AdminLog[]
+  reports      Report[]
+  referred_by  User?    @relation("Referrals", fields: [referred_by_id], references: [user_id])
+  referred_by_id Int?
+  referrals    User[]   @relation("Referrals")
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  session_token String @unique
+  user_id      Int
+  expires      DateTime
+  user         User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Game {
+  game_id      Int      @id @default(autoincrement())
+  name         String   @unique
+  enabled      Boolean  @default(true)
+  rtp          Decimal? @db.Decimal(5, 2)
+  max_bet      BigInt?
+  owner_params Json?
+
+  @@map("games")
+}
+
+model Bet {
+  bet_id      String   @id @default(uuid())
+  user_id     Int
+  game        String
+  amount      BigInt
+  outcome     Json
+  profit      BigInt
+  created_at  DateTime @default(now())
+  server_seed String?
+  client_nonce String?
+
+  user        User     @relation(fields: [user_id], references: [user_id])
+
+  @@map("bets")
+}
+
+model AdminLog {
+  log_id     Int      @id @default(autoincrement())
+  admin_id   Int
+  action     String
+  target_id  Int?
+  details    Json?
+  created_at DateTime @default(now())
+
+  admin      User     @relation(fields: [admin_id], references: [user_id])
+
+  @@map("admin_logs")
+}
+
+model Report {
+  report_id  Int      @id @default(autoincrement())
+  reporter_id Int
+  target_id  Int
+  reason     String
+  status     ReportStatus @default(PENDING)
+  created_at DateTime @default(now())
+
+  reporter   User     @relation(fields: [reporter_id], references: [user_id])
+
+  @@map("reports")
+}
+
+model Setting {
+  key         String   @id
+  value       Json
+  updated_at  DateTime @default(now())
+
+  @@map("settings")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  PLAYER
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
