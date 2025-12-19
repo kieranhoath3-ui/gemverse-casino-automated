@@ -22,11 +22,11 @@ services:
       - "3000:3000"
     environment:
       # The database connection string points at the db service
-      DATABASE_URL: postgres://postgres:postgres@db:5432/gemverse
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/gemverse?schema=public
       JWT_SECRET: please-change-this-secret
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: please-change-this-secret
-      # You can set additional env vars here if needed
+      NODE_ENV: development
     depends_on:
       - db
     volumes:
